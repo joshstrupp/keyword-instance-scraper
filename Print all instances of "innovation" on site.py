@@ -1,9 +1,21 @@
 from bs4 import BeautifulSoup
 import urllib.request
-from IPython.display import HTML
 import re
+from IPython.display import HTML
+import requests
+from urllib import request, response, error, parse
+from urllib.request import urlopen
 
-r = urllib.request.urlopen('https://www.amerisourcebergen.com/').read()
-soup = BeautifulSoup(r, "lxml")
+# This script will return full sentences that contain inno*
 
-print(soup.get_text("innovation"))
+url = "https://www.amerisourcebergen.com/about-who-we-are"
+html = urlopen(url)
+soup = BeautifulSoup(html, 'html.parser')
+
+
+innovation_instances = soup.find_all(string=re.compile("innovations|innovation|innovator|innovators|innovate|innovates|innovative"))
+
+# ALTERNATIVE with regex: 
+# innovation_instances = soup.find_all(string=re.compile("inno*"))
+
+print(innovation_instances)
