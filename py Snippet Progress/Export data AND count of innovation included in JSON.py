@@ -1,3 +1,5 @@
+#GOAL: Clean up JSON output – add count of "innovation" words for each website, create cleaner, structured data
+
 #NOTE: there are simple JSON to CSV converters: https://json-csv.com
 
 # ------------------------------------------
@@ -10,6 +12,8 @@ import requests
 from urllib import request, response, error, parse
 from urllib.request import urlopen
 import json
+
+#Use "String slices" and .title() method to entract name of company after 'http://www.'
 
 urls = ['https://www.aboutamazon.com/our-company', 'https://www.amerisourcebergen.com/about-who-we-are', 
        'https://www.unitedhealthgroup.com/about']
@@ -27,13 +31,13 @@ for url in urls:
     
     #Convert innovation_instances to string and count instances
     
-    def listToString(s):  
+    def listToString():  
         ii_string = " " 
 
         # return string   
         return (ii_string.join(innovation_instances)) 
 
-    string = listToString(s)
+    string = listToString()
     sub = 'inno'
     
     inno_string = (string.count(sub))
