@@ -1,0 +1,67 @@
+from bs4 import BeautifulSoup
+import urllib.request
+import re
+from IPython.display import HTML
+import requests
+from urllib import request, response, error, parse
+from urllib.request import urlopen
+import json
+
+#Use "String slices" and .title() method to entract name of company after 'http://www.'
+# remove s from https
+# add logic that skips URLs that give `HTTPError` OR add logic to bypass HTTP Error 403 - https://stackoverflow.com/questions/13055208/httperror-http-error-403-forbidden
+# used US companies only
+
+urls = ['http://www.aboutamazon.com/our-company/', 
+        'http://www.intel.com/content/www/us/en/company-overview/company-overview.html',
+        'http://www.microsoft.com/en-us/about/',
+        'http://corporate.ford.com/company.html',
+        'http://www.boeing.com/company/general-info/',
+        'http://www.alliancedata.com/about-us/default.aspx',
+        'https://www.polarityte.com/about/overview/',
+        'http://www.arconic.com/what-we-do/',
+        'http://www.fico.com/en/about-us/',
+        'http://www.epizyme.com/about-us/overview-history/']
+
+data = {}
+
+for url in urls:
+    
+    html = urlopen(url)
+    soup = BeautifulSoup(html, 'html.parser')
+    
+    first_title = soup.title
+    
+    title = first_title.string
+    innovation_instances = soup.find_all(string=re.compile("inno*"))
+    
+    def listToString():  
+        ii_string = " " 
+
+        # return string   
+        return (ii_string.join(innovation_instances)) 
+
+    string = listToString()
+    sub = 'inno'
+    
+    inno_string_count = (string.count(sub))
+    
+#     innovation_instances.append(inno_string_count)
+    
+    
+    # add count of innovation words to dictionary and print as JSON/CSV element under 
+    
+    
+#     text_only = soup.get_text()
+#     sub = 'inno'
+#     inno_string_count = (string.count(sub))
+    
+    data[url] = innovation_instances, title, inno_string_count
+    
+
+    
+    
+with open('data.txt', 'w') as outfile:
+    json.dump(data, outfile)
+    
+    print(data)

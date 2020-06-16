@@ -1,0 +1,56 @@
+from bs4 import BeautifulSoup
+import urllib.request
+import re
+from IPython.display import HTML
+import requests
+from urllib import request, response, error, parse
+from urllib.request import urlopen
+import json
+
+urls = ['https://www.aboutamazon.com/our-company', 'https://www.amerisourcebergen.com/about-who-we-are']
+data = {}
+
+for url in urls:
+    
+    html = urlopen(url)
+    soup = BeautifulSoup(html, 'html.parser')
+    innovation_instances = soup.find_all(string=re.compile("inno*"))
+    
+    data[url] = innovation_instances
+
+with open('data.txt', 'w') as outfile:
+    json.dump(data, outfile)
+    
+    
+print(data)
+
+
+
+# --------------------------CSV------------------
+
+from bs4 import BeautifulSoup
+import urllib.request
+import re
+from IPython.display import HTML
+import requests
+from urllib import request, response, error, parse
+from urllib.request import urlopen
+import csv
+
+urls = ['https://www.aboutamazon.com/our-company', 'https://www.amerisourcebergen.com/about-who-we-are']
+data = {}
+
+for url in urls:
+    
+    html = urlopen(url)
+    soup = BeautifulSoup(html, 'html.parser')
+    innovation_instances = soup.find_all(string=re.compile("inno*"))
+    
+    data[url] = innovation_instances
+
+def createCSV():
+    with open("data.csv", mode="w") as csvfile:
+        csvwriter = csv.writer(csvfile)
+        csvwriter.writerow([data])
+        
+createCSV()
